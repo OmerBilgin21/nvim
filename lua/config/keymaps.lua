@@ -22,8 +22,12 @@ _G.insert_console_log_snippet = function()
 end
 
 return {
+  -- it's abismal but I'm using a Turkish layout -_-
+  vim.keymap.set({ "n", "v" }, "ö", "h", { noremap = true, silent = true }),
+  vim.keymap.set({ "n", "v" }, "ç", "l", { noremap = true, silent = true }),
+  vim.keymap.set({ "n", "v" }, "-", "$", { noremap = true, silent = true }),
   vim.api.nvim_set_keymap("i", "<C-g>", "<cmd>lua insert_console_log_snippet()<CR>", { noremap = true, silent = true }),
-  vim.keymap.set("i", "C-c", "<Esc>"),
+  vim.api.nvim_set_keymap("i", "C-c", "<Esc>", { silent = true, noremap = true }),
 }
 
 -- ":tabc[lose][!]"
