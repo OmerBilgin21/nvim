@@ -9,8 +9,10 @@ _G.insert_console_log_snippet = function()
   if vim.tbl_contains(allowed_filetypes, filetype) then
     -- Get the selected text or cursor word
     local selected_text = vim.fn.expand("<cword>")
+
     -- Insert the snippet at the cursor position
     local snippet = string.format("console.log('%s: ', %s)", selected_text, selected_text)
+    vim.api.nvim_command("normal! ciw")
     -- Insert the snippet
     vim.api.nvim_put({ snippet }, "c", true, true)
     -- Move the cursor inside the snippet
