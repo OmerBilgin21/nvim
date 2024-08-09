@@ -24,9 +24,11 @@ _G.insert_console_log_snippet = function()
 end
 
 return {
-	vim.keymap.set({ "n", "v" }, "ö", "h", { noremap = true, silent = true }),
 	vim.keymap.set("n", "yy", [["+Y]]),
 	vim.keymap.set({ "n", "v" }, "y", [["+y]]),
+	vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true }),
+	vim.keymap.set("n", "<C-i>", "<C-u>zz", { noremap = true, silent = true }),
+	vim.keymap.set({ "n", "v" }, "ö", "h", { noremap = true, silent = true }),
 	vim.keymap.set({ "n", "v" }, "ç", "l", { noremap = true, silent = true }),
 	vim.keymap.set({ "n", "v" }, "-", "$", { noremap = true, silent = true }),
 	vim.keymap.set({ "n", "i", "v", "x" }, "C-c", "$", { noremap = true, silent = true }),
