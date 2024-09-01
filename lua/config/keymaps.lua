@@ -37,3 +37,8 @@ km.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 km.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 km.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 km.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+
+km.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
+km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
+km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
+km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
