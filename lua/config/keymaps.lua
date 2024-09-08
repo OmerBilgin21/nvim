@@ -28,9 +28,9 @@ km.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Res
 km.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
 km.set({ "i", "x", "n", "s" }, "<C-s>", function()
-  vim.lsp.buf.format()
-  vim.cmd("w")
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+	vim.lsp.buf.format()
+	vim.cmd("w")
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "I'm from the VSCode gen boi" })
 
 km.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
@@ -42,3 +42,5 @@ km.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
+km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
+-- <cmd>:bd<cr>

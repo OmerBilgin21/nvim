@@ -11,6 +11,7 @@ function Trial()
 			"",
 			"!**/.git/*",
 			"!*.lock.json",
+			"!node_modules/",
 		},
 	}
 	local return_val = telescope_builtin.live_grep(my_opts)
@@ -23,6 +24,7 @@ table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!**/.git/*")
 table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!*.lock.json")
+-- table.insert(vimgrep_arguments, "!node_modules/")
 
 return {
 	"nvim-telescope/telescope.nvim",
