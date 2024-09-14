@@ -43,4 +43,3 @@ km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
--- <cmd>:bd<cr>
