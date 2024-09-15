@@ -15,7 +15,6 @@ km.set("n", "<C-i>", "<C-u>zz", { noremap = true, silent = true })
 km.set({ "n", "v" }, "ö", "h", { noremap = true, silent = true })
 km.set({ "n", "v" }, "ç", "l", { noremap = true, silent = true })
 km.set({ "n", "v" }, "-", "$", { noremap = true, silent = true })
-km.set("i", "<C-g>", "<cmd>lua insert_console_log_snippet()<CR>", { noremap = true, silent = true })
 km.set("n", "<F2>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
 km.set("n", "<F3>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 km.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
@@ -27,12 +26,6 @@ km.set("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Searc
 km.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 km.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
-km.set({ "i", "x", "n", "s" }, "<C-s>", function()
-	vim.lsp.buf.format()
-	vim.cmd("w")
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-end, { desc = "I'm from the VSCode gen boi" })
-
 km.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 km.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 km.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
@@ -43,3 +36,18 @@ km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
+
+-- !important ones
+km.set("i", "<C-g>", "<cmd>lua insert_console_log_snippet()<CR>", { noremap = true, silent = true })
+km.set({ "i", "x", "n", "s" }, "<C-s>", function()
+	vim.lsp.buf.format()
+	vim.cmd("w")
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+end, { desc = "I'm from the VSCode gen boi" })
+-- km.set("v", "C-g", ":lua _G.insert_console_log_snippet_visual()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	"v",
+	"<C-g>",
+	":lua _G.insert_console_log_snippet_visual()<CR>",
+	{ noremap = true, silent = true }
+)
