@@ -8,6 +8,16 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
+		config = function()
+			local ls = require("luasnip")
+			vim.keymap.set("i", "<C-b>", function()
+				if ls.expand_or_jumpable() then
+					ls.expand_or_jump()
+				else
+					print("nothing jumpable")
+				end
+			end)
+		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
