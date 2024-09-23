@@ -37,17 +37,8 @@ km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
 
--- !important ones
-km.set("i", "<C-g>", "<cmd>lua insert_console_log_snippet()<CR>", { noremap = true, silent = true })
 km.set({ "i", "x", "n", "s" }, "<C-s>", function()
 	vim.lsp.buf.format()
 	vim.cmd("w")
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-end, { desc = "I'm from the VSCode gen boi" })
--- km.set("v", "C-g", ":lua _G.insert_console_log_snippet_visual()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-	"v",
-	"<C-g>",
-	":lua _G.insert_console_log_snippet_visual()<CR>",
-	{ noremap = true, silent = true }
-)
+end)
