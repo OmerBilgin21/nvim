@@ -4,6 +4,7 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
+				padding = 0,
 				theme = "iceberg_dark",
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },

@@ -1,3 +1,3 @@
-require('keymaps')
-require('presets')
-require('snippets')
+require("keymaps")
+require("presets")
+require("snippets")
