@@ -42,6 +42,7 @@ return {
       mappings = {
         i = {
           ["<C-c>"] = actions.close,
+          ["<esc>"] = actions.close,
         },
         n = {
           ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
