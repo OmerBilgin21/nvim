@@ -2,29 +2,12 @@ local telescope_builtin = require("telescope.builtin")
 local actions = require("telescope.actions")
 local telescope_config = require("telescope.config")
 
--- useless lua function so I can learn
-function Trial()
-  local my_opts = {
-    ignore = "*.lock.json",
-    hidden = true,
-    glob = {
-      "",
-      "!**/.git/*",
-      "!*.lock.json",
-      "!node_modules/",
-    },
-  }
-  local return_val = telescope_builtin.live_grep(my_opts)
-  print(return_val)
-end
-
 local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
 table.insert(vimgrep_arguments, "--hidden")
 table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!**/.git/*")
 table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!*.lock.json")
--- table.insert(vimgrep_arguments, "!node_modules/")
 
 return {
   "nvim-telescope/telescope.nvim",
@@ -58,8 +41,12 @@ return {
       vimgrep_arguments = vimgrep_arguments,
       mappings = {
         i = {
-          ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
-          ["<esc>"] = actions.close,
+          ["<C-c>"] = actions.close,
+        },
+        n = {
+          ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+          ["<C-c>"] = actions.close,
+          ["q"] = actions.close,
         },
       },
     },
@@ -67,7 +54,9 @@ return {
 
   keys = {
 
-    { "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-    { "<C-f>", "<cmd>Telescope live_grep<cr>",  desc = "Grep" },
+    { "<C-p>",            "<cmd>Telescope find_files<CR>" },
+    { "<C-f>",            "<cmd>Telescope live_grep<CR>" },
+    { "<leader><leader>", "<cmd>Telescope buffers initial_mode=normal theme=dropdown sort_lastused=true<CR>" },
+    { "<leader>th",       "<cmd>Telescope help_tags<CR>" },
   },
 }

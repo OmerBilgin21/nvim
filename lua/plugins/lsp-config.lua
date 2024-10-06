@@ -57,7 +57,9 @@ return {
       lspconfig.cssls.setup({
         capabilities = capabilities,
       })
-      lspconfig.prismals.setup({})
+      lspconfig.prismals.setup({
+        capabilities = capabilities,
+      })
       lspconfig.eslint.setup({
         on_attach = function(_, bufnr)
           vim.api.nvim_create_autocmd("BufWritePre", {

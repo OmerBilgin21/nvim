@@ -26,6 +26,5 @@ return {
       },
     })
     vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal float<CR>", {})
   end,
 }

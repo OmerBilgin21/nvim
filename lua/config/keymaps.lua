@@ -36,6 +36,20 @@ km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>rs", function()
+  local module_name = vim.fn.input("Enter module name:")
+  reload_module(module_name)
+end)
+
+km.set("n", "<leader>rc", function()
+  local replace_from = vim.fn.input("Replace from:")
+  local replace_to = vim.fn.input("Replace to:")
+
+  local cmd_str = string.format("/%s/%s/gc", replace_from, replace_to)
+  cmd_str = "%s" .. cmd_str
+  print(cmd_str)
+  vim.cmd(cmd_str)
+end, { noremap = true, silent = true })
 
 km.set({ "i", "x", "n", "s" }, "<C-s>", function()
   vim.lsp.buf.format()
