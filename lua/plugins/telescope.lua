@@ -57,7 +57,7 @@ return {
 
     { "<C-p>",            "<cmd>Telescope find_files<CR>" },
     { "<C-f>",            "<cmd>Telescope live_grep<CR>" },
-    { "<leader><leader>", "<cmd>Telescope buffers initial_mode=normal theme=dropdown sort_lastused=true<CR>" },
+    { "<leader><leader>", "<cmd>Telescope buffers initial_mode=normal theme=dropdown sort_mru=true<CR>" },
     { "<leader>th",       "<cmd>Telescope help_tags<CR>" },
   },
 }
