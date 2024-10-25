@@ -45,7 +45,10 @@ return {
           Lua = {},
         },
       })
-      lspconfig.tsserver.setup({
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.ts_ls.setup({
         capabilities = capabilities,
       })
       lspconfig.html.setup({
