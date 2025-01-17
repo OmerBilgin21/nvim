@@ -7,7 +7,7 @@ return {
       local tt = require("toggleterm")
       tt.setup({
         size = 20,
-        open_mapping = [[<c-t>]],
+        open_mapping = [[<S-l>]],
         direction = "float",
         float_opts = {
           border = "single",
