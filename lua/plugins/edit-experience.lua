@@ -16,6 +16,38 @@ return {
   },
 
   {
+    "echasnovski/mini.animate",
+    config = function()
+      require("mini.animate").setup({
+        cursor = {
+          enable = true,
+          timing = function(_, n)
+            return 100 / n
+          end,
+        },
+        scroll = {
+          enable = true,
+          timing = function(_, n)
+            return 100 / n
+          end,
+        },
+        open = {
+          enable = true,
+          timing = function(_, n)
+            return 100 / n
+          end,
+        },
+        close = {
+          enable = true,
+          timing = function(_, n)
+            return 100 / n
+          end,
+        },
+      })
+    end,
+  },
+
+  {
     "echasnovski/mini.ai",
     config = function()
       local ai = require("mini.ai")
