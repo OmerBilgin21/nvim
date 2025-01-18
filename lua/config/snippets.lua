@@ -4,6 +4,12 @@ _G.reload_module = function(module_name)
   print("Reloaded module: " .. module_name)
 end
 
+_G.appendTables = function(destination, source)
+  for key, value in pairs(source) do
+    destination[key] = value
+  end
+end
+
 -- Highlight on yank
 vim.api.nvim_exec(
   [[
