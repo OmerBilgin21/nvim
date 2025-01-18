@@ -20,28 +20,19 @@ return {
     config = function()
       require("mini.animate").setup({
         cursor = {
-          enable = true,
-          timing = function(_, n)
-            return 100 / n
-          end,
+          enable = false,
         },
         scroll = {
           enable = true,
           timing = function(_, n)
-            return 100 / n
+            return 65 / n
           end,
         },
         open = {
-          enable = true,
-          timing = function(_, n)
-            return 100 / n
-          end,
+          enable = false,
         },
         close = {
-          enable = true,
-          timing = function(_, n)
-            return 100 / n
-          end,
+          enable = false,
         },
       })
     end,
