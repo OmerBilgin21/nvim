@@ -20,7 +20,10 @@ local return_table = {
   "nvim-telescope/telescope.nvim",
 
   keys = {
-    { "<C-p>",            "<cmd>Telescope find_files<CR>" },
+    {
+      "<C-p>",
+      "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '-g', '!node_modules/**' }})<cr>",
+    },
     {
       "<C-f>",
       function()
@@ -29,7 +32,7 @@ local return_table = {
       end,
     },
     { "<leader><leader>", "<cmd>Telescope buffers initial_mode=normal theme=dropdown sort_mru=true<CR>" },
-    { "<leader>d",        "<cmd>Telescope help_tags<CR>" },
+    { "<leader>d", "<cmd>Telescope help_tags<CR>" },
   },
 }
 
