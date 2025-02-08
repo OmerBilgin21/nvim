@@ -1,5 +1,68 @@
 return {
   {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+
+      harpoon:setup()
+
+      vim.keymap.set("n", "<leader>H", function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set("n", "<leader>h", function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+
+      vim.keymap.set("n", "<leader>1", function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set("n", "<leader>2", function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set("n", "<leader>3", function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set("n", "<leader>4", function()
+        harpoon:list():select(4)
+      end)
+      vim.keymap.set("n", "<leader>5", function()
+        harpoon:list():select(5)
+      end)
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup({
+        opts = {
+          enable_close = true,
+          enable_rename = true,
+          enable_close_on_slash = false,
+        },
+      })
+    end,
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    config = function()
+      local null_ls = require("null-ls")
+
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.diagnostics.erb_lint,
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.code_actions.gitsigns,
+        },
+        debug = false,
+      })
+
+      vim.keymap.set("n", "<leader>,", vim.lsp.buf.format, {})
+    end,
+  },
+  {
     "echasnovski/mini.pairs",
     config = {
       modes = { insert = true, command = true, terminal = false },
@@ -9,12 +72,10 @@ return {
       markdown = true,
     },
   },
-
   {
     "folke/ts-comments.nvim",
     opts = {},
   },
-
   {
     "echasnovski/mini.ai",
     config = function()
@@ -27,10 +88,10 @@ return {
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }),
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),       -- class
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },           -- tags
-          d = { "%f[%d]%d+" },                                                          -- digits
-          e = {                                                                         -- Word with case
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
+          d = { "%f[%d]%d+" }, -- digits
+          e = { -- Word with case
             {
               "%u[%l%d]+%f[^%l%d]",
               "%f[%S][%l%d]+%f[^%l%d]",
@@ -39,13 +100,12 @@ return {
             },
             "^().*()$",
           },
-          u = ai.gen_spec.function_call(),                           -- u for "Usage"
+          u = ai.gen_spec.function_call(), -- u for "Usage"
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
       }
     end,
   },
-
   {
     "MagicDuck/grug-far.nvim",
     config = { headerMaxWidth = 80 },

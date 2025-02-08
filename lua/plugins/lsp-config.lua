@@ -1,5 +1,18 @@
 return {
   {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      local ts_config = require("nvim-treesitter.configs")
+      ts_config.setup({
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+        ensure_installed = { "lua", "javascript", "python", "jsonc", "prisma" },
+      })
+    end,
+  },
+  {
     "williamboman/mason.nvim",
     lazy = false,
     config = function()
@@ -57,12 +70,9 @@ return {
       lspconfig.tailwindcss.setup({
         capabilities = capabilities,
       })
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.prismals.setup({
-        capabilities = capabilities,
-      })
+      -- lspconfig.cssls.setup({
+      --   capabilities = capabilities,
+      -- })
       lspconfig.eslint.setup({
         on_attach = function(_, bufnr)
           vim.api.nvim_create_autocmd("BufWritePre", {
