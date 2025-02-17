@@ -10,6 +10,33 @@ return {
     },
     config = function()
       local ls = require("luasnip")
+      local s = ls.snippet
+      local t = ls.text_node
+      local i = ls.insert_node
+      local rep = require("luasnip.extras").rep
+
+      ls.add_snippets("typescriptreact", {
+        s("tsrafce", {
+          t({ "import React from 'react';", "" }),
+          t("type Props = {};"),
+          t({ "", "const " }),
+          i(1, "ComponentName"),
+          t({
+            ": React.FC<Props> = () => {",
+            "  return (",
+            "    <div>",
+            "      {/* Your component JSX */}",
+            "    </div>",
+            "  );",
+            "};",
+            "",
+            "export default ",
+          }),
+          rep(1),
+          t(";"),
+        }),
+      })
+
       vim.keymap.set("i", "<C-b>", function()
         if ls.expand_or_jumpable() then
           ls.expand_or_jump()
