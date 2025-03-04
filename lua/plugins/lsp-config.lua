@@ -33,46 +33,54 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
 
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_init = function(client)
-          if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-              return
+      if is_lua() then
+        lspconfig.lua_ls.setup({
+          capabilities = capabilities,
+          on_init = function(client)
+            if client.workspace_folders then
+              local path = client.workspace_folders[1].name
+              if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+                return
+              end
             end
-          end
-          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-            runtime = {
-              version = "LuaJIT",
-            },
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME,
+            client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+              runtime = {
+                version = "LuaJIT",
               },
-            },
-          })
-        end,
-        settings = {
-          Lua = {},
-        },
-      })
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-      })
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME,
+                },
+              },
+            })
+          end,
+          settings = {
+            Lua = {},
+          },
+        })
+      end
+
+      if is_react() then
+        lspconfig.tailwindcss.setup({
+          capabilities = capabilities,
+        })
+        lspconfig.cssls.setup({
+          capabilities = capabilities,
+        })
+        lspconfig.html.setup({
+          capabilities = capabilities,
+        })
+      end
+
+      if is_go() then
+        lspconfig.gopls.setup({
+          capabilities = capabilities,
+        })
+      end
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
       })
-      lspconfig.html.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-      })
-      -- lspconfig.cssls.setup({
-      --   capabilities = capabilities,
-      -- })
       lspconfig.eslint.setup({
         on_attach = function(_, bufnr)
           vim.api.nvim_create_autocmd("BufWritePre", {

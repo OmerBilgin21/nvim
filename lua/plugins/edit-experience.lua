@@ -42,21 +42,12 @@ return {
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end)
 
-      vim.keymap.set("n", "<leader>1", function()
-        harpoon:list():select(1)
-      end)
-      vim.keymap.set("n", "<leader>2", function()
-        harpoon:list():select(2)
-      end)
-      vim.keymap.set("n", "<leader>3", function()
-        harpoon:list():select(3)
-      end)
-      vim.keymap.set("n", "<leader>4", function()
-        harpoon:list():select(4)
-      end)
-      vim.keymap.set("n", "<leader>5", function()
-        harpoon:list():select(5)
-      end)
+      for i = 1, 5 do
+        local index = i
+        vim.keymap.set("n", "<leader>" .. index, function()
+          harpoon:list():select(index)
+        end)
+      end
     end,
   },
   {
@@ -99,10 +90,10 @@ return {
       markdown = true,
     },
   },
-  {
-    "folke/ts-comments.nvim",
-    opts = {},
-  },
+  -- {
+  --   "folke/ts-comments.nvim",
+  --   opts = {},
+  -- },
   {
     "echasnovski/mini.ai",
     config = function()
@@ -115,10 +106,10 @@ return {
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }),
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-          d = { "%f[%d]%d+" }, -- digits
-          e = { -- Word with case
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),       -- class
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },           -- tags
+          d = { "%f[%d]%d+" },                                                          -- digits
+          e = {                                                                         -- Word with case
             {
               "%u[%l%d]+%f[^%l%d]",
               "%f[%S][%l%d]+%f[^%l%d]",
@@ -127,7 +118,7 @@ return {
             },
             "^().*()$",
           },
-          u = ai.gen_spec.function_call(), -- u for "Usage"
+          u = ai.gen_spec.function_call(),                           -- u for "Usage"
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
       }
