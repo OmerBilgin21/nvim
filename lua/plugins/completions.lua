@@ -37,6 +37,12 @@ return {
         }),
       })
 
+      ls.add_snippets("typescriptreact", {
+        s("debugg", {
+          t("style={{border: '1px solid red'}}"),
+        }),
+      })
+
       vim.keymap.set("i", "<C-b>", function()
         if ls.expand_or_jumpable() then
           ls.expand_or_jump()

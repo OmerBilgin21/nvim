@@ -41,7 +41,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 
 opt.wrap = true
-opt.smoothscroll = true
+opt.smoothscroll = false
 opt.autoread = true
 opt.swapfile = false
 -- opt.showcmd = false
