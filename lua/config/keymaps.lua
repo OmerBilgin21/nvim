@@ -1,5 +1,8 @@
 local km = vim.keymap
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 km.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
 km.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
 km.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
