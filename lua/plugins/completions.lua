@@ -43,6 +43,15 @@ return {
         }),
       })
 
+      ls.add_snippets("go", {
+        s("iferr", {
+          t("if err != nil {"),
+          t({ "", "\t" }), -- New line with an indent for the placeholder
+          i(1, "/* handle error */"),
+          t({ "", "}" }),
+        }),
+      })
+
       vim.keymap.set("i", "<C-b>", function()
         if ls.expand_or_jumpable() then
           ls.expand_or_jump()
