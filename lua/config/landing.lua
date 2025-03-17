@@ -141,9 +141,7 @@ local function setup(options)
 
   vim.api.nvim_create_autocmd("VimEnter", {
     group = autocmd_group,
-    callback = function()
-      display_minintro({ file = vim.fn.getcwd() })
-    end,
+    callback = display_minintro,
     once = true,
   })
 end
