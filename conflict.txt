@@ -1,0 +1,5 @@
+hey my
+guy this
+is conflict
+resolving with
+fugitive and lazygit
