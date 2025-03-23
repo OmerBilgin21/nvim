@@ -1,10 +1,8 @@
+vim.keymap.set("n", "<leader>gb", "<cmd>:GitBlameToggle<cr>", { noremap = true, silent = true })
 return {
   {
     "f-person/git-blame.nvim",
     event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<leader>gb", "<cmd>:GitBlameToggle<cr>", { noremap = true, silent = true })
-    end,
     opts = {
       enabled = false,
       message_template = " <summary> • <date> • <author> • <<sha>>",
