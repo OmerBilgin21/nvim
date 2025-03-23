@@ -1,5 +1,5 @@
 hey my
 guy this
-is conflict
+is main plain branch
 resolving with
 fugitive and lazygit
