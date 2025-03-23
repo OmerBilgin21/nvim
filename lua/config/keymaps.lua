@@ -51,7 +51,8 @@ km.set("n", "<leader>rc", function()
 end, { noremap = true, silent = true })
 
 km.set({ "i", "x", "n", "s" }, "<C-s>", function()
-  vim.lsp.buf.format()
+  -- below was for null_ls
+  -- vim.lsp.buf.format()
   vim.cmd("w")
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end)

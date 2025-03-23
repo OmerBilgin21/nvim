@@ -63,23 +63,47 @@ return {
     end,
   },
   {
-    "nvimtools/none-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.diagnostics.erb_lint,
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.code_actions.gitsigns,
+    "stevearc/conform.nvim",
+    opts = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "isort", "black" },
+          javascript = { "prettier", "eslint" },
+          -- go?
         },
-        debug = false,
+        format_on_save = {
+          timeout_ms = 1000,
+          lsp_format = "fallback",
+        },
       })
-
-      vim.keymap.set("n", "<leader>,", vim.lsp.buf.format, {})
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
     end,
   },
+  -- none_ls for if still I'd like to keep it
+  -- {
+  --   "nvimtools/none-ls.nvim",
+  --   config = function()
+  --     local null_ls = require("null-ls")
+  --
+  --     null_ls.setup({
+  --       sources = {
+  --         null_ls.builtins.formatting.stylua,
+  --         null_ls.builtins.diagnostics.erb_lint,
+  --         null_ls.builtins.formatting.prettier,
+  --         null_ls.builtins.code_actions.gitsigns,
+  --       },
+  --       debug = false,
+  --     })
+  --
+  --     vim.keymap.set("n", "<leader>,", vim.lsp.buf.format, {})
+  --   end,
+  -- },
   {
     "echasnovski/mini.pairs",
     config = {
@@ -106,10 +130,10 @@ return {
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }),
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),       -- class
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },           -- tags
-          d = { "%f[%d]%d+" },                                                          -- digits
-          e = {                                                                         -- Word with case
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
+          d = { "%f[%d]%d+" }, -- digits
+          e = { -- Word with case
             {
               "%u[%l%d]+%f[^%l%d]",
               "%f[%S][%l%d]+%f[^%l%d]",
@@ -118,7 +142,7 @@ return {
             },
             "^().*()$",
           },
-          u = ai.gen_spec.function_call(),                           -- u for "Usage"
+          u = ai.gen_spec.function_call(), -- u for "Usage"
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
       }
