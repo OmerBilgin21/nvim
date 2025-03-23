@@ -14,7 +14,7 @@ return {
     {
       "tpope/vim-fugitive",
       config = function()
-        vim.keymap.set("n", "<leader>gm", "<cmd>:Gdiffsplit! vertical<cr>", { noremap = true, silent = true })
+        vim.keymap.set("n", "<leader>gm", "<cmd>:Gdiffsplit!<cr>", { noremap = true, silent = true })
       end,
     },
   },
