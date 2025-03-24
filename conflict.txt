@@ -1,5 +1,0 @@
-hey my
-guy this
-is main plain branch
-resolving with
-fugitive and lazygit
