@@ -73,7 +73,7 @@ return {
           javascriptreact = { "prettier_d", "prettier", stop_after_first = true },
           typescript = { "prettier_d", "prettier", stop_after_first = true },
           typescriptreact = { "prettier_d", "prettier", stop_after_first = true },
-          -- go?
+          go = { "gofmt" },
         },
         format_on_save = {
           timeout_ms = 5000,
