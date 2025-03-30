@@ -92,6 +92,13 @@ return {
   {
     "ggandor/leap.nvim",
     config = function()
+      local curr_file = vim.bo.filetype
+
+      if curr_file == "trouble" or curr_file == "lazy" then
+        print("went in the wanted case ")
+        return
+      end
+
       local leap = require("leap")
       local user = require("leap.user")
       user.set_repeat_keys("<enter>", "<backspace>")

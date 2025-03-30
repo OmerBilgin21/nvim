@@ -109,6 +109,11 @@ local function redraw()
 end
 
 local function display_minintro(payload)
+  -- otherwise breaks when new plugin is being installed
+  if vim.bo.filetype == "lazy" then
+    return
+  end
+
   local is_dir = vim.fn.isdirectory(payload.file) == 1
   local current_buff = vim.api.nvim_get_current_buf()
   local current_buff_name = vim.api.nvim_buf_get_name(current_buff)
@@ -134,7 +139,6 @@ local function display_minintro(payload)
 end
 
 local function setup(options)
-  print("Into runs")
   options = options or {}
   vim.api.nvim_set_hl(highlight_ns_id, "Default", { fg = options.color or DEFAULT_COLOR })
   vim.api.nvim_set_hl_ns(highlight_ns_id)

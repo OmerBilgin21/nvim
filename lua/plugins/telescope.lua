@@ -42,6 +42,9 @@ return {
         },
       },
       pickers = {
+        lsp_references = {
+          jump_type = "vsplit",
+        },
         live_grep = {
           theme = "ivy",
         },
@@ -82,6 +85,12 @@ return {
       noremap = true,
       silent = true,
     })
+    vim.keymap.set("n", "gd", function()
+      builtin.lsp_definitions({ reuse_win = true })
+    end, {})
+    vim.keymap.set("n", "gr", function()
+      builtin.lsp_references()
+    end, {})
 
     if exists then
       telescope.load_extension("fzf")
