@@ -1,62 +1,98 @@
 local exists, _ = pcall(require, "telescope")
 
-local vimgrep_args = {
-  "rg",
-  "--color=never",
-  "--no-heading",
-  "--with-filename",
-  "--line-number",
-  "--column",
-  "--smart-case",
-  "--glob",
-  "!node_modules/**",
-  "--glob",
-  "!.git/**",
-  "--glob",
-  "!*lock.json",
-}
-
-local return_table = {
+return {
   "nvim-telescope/telescope.nvim",
+  dependencies = {
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  },
+  lazy = false,
+  config = function()
+    local telescope = require("telescope")
+    local builtin = require("telescope.builtin")
+    local actions = require("telescope.actions")
 
-  keys = {
-    {
-      "<C-p>",
-      "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '-g', '!node_modules/**' }})<cr>",
+    telescope.setup({
+      defaults = {
+        file_ignore_patterns = {
+          "node_modules",
+          ".git",
+          -- for files you have to do it like below
+          "!*lock.json",
+          "raycast",
+          "dist",
+          "*.next",
+          "*.gitlab",
+          "build",
+          "target",
+        },
+        preview = {
+          filesize_limit = 1,
+        },
+        mappings = {
+          i = {
+            ["<C-c>"] = actions.close,
+            ["<esc>"] = actions.close,
+            ["q"] = actions.close,
+          },
+          n = {
+            ["<C-d>"] = actions.delete_buffer,
+            ["<C-c>"] = actions.close,
+            ["q"] = actions.close,
+          },
+        },
+      },
+      pickers = {
+        live_grep = {
+          theme = "ivy",
+        },
+        buffers = {
+          initial_mode = "normal",
+          theme = "dropdown",
+          sort_mru = true,
+        },
+      },
+    })
+    vim.keymap.set("n", "<C-p>", function()
+      builtin.find_files()
+    end, {
+      noremap = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>p", function()
+      builtin.find_files({
+        hidden = true,
+        no_ignore = true,
+      })
+    end, {
+      noremap = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>f", function()
+      builtin.live_grep()
+    end, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader><leader>", function()
+      builtin.buffers()
+    end, {
+      noremap = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>d", function()
+      builtin.help_tags()
+    end, {
+      noremap = true,
+      silent = true,
+    })
+
+    if exists then
+      telescope.load_extension("fzf")
+    end
+  end,
+  extensions = {
+    fzf = {
+      fuzzy = true, -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true, -- override the file sorter
+      case_mode = "smart_case", -- or "ignore_case" or "respect_case"
     },
-    {
-      "<C-f>",
-      function()
-        local tbuiltin = require("telescope.builtin")
-        tbuiltin.live_grep({ vimgrep_arguments = vimgrep_args })
-      end,
-    },
-    { "<leader><leader>", "<cmd>Telescope buffers initial_mode=normal theme=dropdown sort_mru=true<CR>" },
-    { "<leader>d", "<cmd>Telescope help_tags<CR>" },
   },
 }
-
-if exists then
-  local actions = require("telescope.actions")
-
-  return_table["opts"] = {
-    defaults = {
-      preview = {
-        filesize_limit = 1,
-      },
-      mappings = {
-        i = {
-          ["<C-c>"] = actions.close,
-          ["<esc>"] = actions.close,
-        },
-        n = {
-          ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
-          ["<C-c>"] = actions.close,
-          ["q"] = actions.close,
-        },
-      },
-    },
-  }
-end
-
-return return_table

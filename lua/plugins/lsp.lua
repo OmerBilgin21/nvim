@@ -1,5 +1,35 @@
 return {
   {
+    "stevearc/conform.nvim",
+    opts = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "isort", "black" },
+          javascript = { "prettier_d", "prettier", stop_after_first = true },
+          javascriptreact = { "prettier_d", "prettier", stop_after_first = true },
+          typescript = { "prettier_d", "prettier", stop_after_first = true },
+          typescriptreact = { "prettier_d", "prettier", stop_after_first = true },
+          go = { "gofmt" },
+          json = { "jq" },
+        },
+        format_on_save = {
+          timeout_ms = 5000,
+          lsp_format = "fallback",
+        },
+      })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+      vim.keymap.set("n", "<leader>,", function()
+        require("conform").format()
+      end)
+    end,
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()

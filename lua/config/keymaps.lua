@@ -50,6 +50,9 @@ km.set("n", "<leader>rc", function()
   vim.cmd(cmd_str)
 end, { noremap = true, silent = true })
 
+km.set("n", "<leader><tab>n", "<cmd>:tabnext<cr>")
+km.set("n", "<leader><tab>p", "<cmd>:tabprevious<cr>")
+
 km.set({ "i", "x", "n", "s" }, "<C-s>", function()
   vim.cmd("w")
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)

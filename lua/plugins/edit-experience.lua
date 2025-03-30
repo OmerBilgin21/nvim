@@ -51,41 +51,10 @@ return {
     end,
   },
   {
-    "windwp/nvim-ts-autotag",
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
     config = function()
-      require("nvim-ts-autotag").setup({
-        opts = {
-          enable_close = true,
-          enable_rename = true,
-          enable_close_on_slash = false,
-        },
-      })
-    end,
-  },
-  {
-    "stevearc/conform.nvim",
-    opts = function()
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "isort", "black" },
-          javascript = { "prettier_d", "prettier", stop_after_first = true },
-          javascriptreact = { "prettier_d", "prettier", stop_after_first = true },
-          typescript = { "prettier_d", "prettier", stop_after_first = true },
-          typescriptreact = { "prettier_d", "prettier", stop_after_first = true },
-          go = { "gofmt" },
-        },
-        format_on_save = {
-          timeout_ms = 5000,
-          lsp_format = "fallback",
-        },
-      })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf })
-        end,
-      })
+      require("nvim-surround").setup({})
     end,
   },
   {
@@ -97,36 +66,6 @@ return {
       skip_unbalanced = true,
       markdown = true,
     },
-  },
-  {
-    "echasnovski/mini.ai",
-    config = function()
-      local ai = require("mini.ai")
-      return {
-        n_lines = 500,
-        custom_textobjects = {
-          o = ai.gen_spec.treesitter({ -- code block
-            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-          d = { "%f[%d]%d+" }, -- digits
-          e = { -- Word with case
-            {
-              "%u[%l%d]+%f[^%l%d]",
-              "%f[%S][%l%d]+%f[^%l%d]",
-              "%f[%P][%l%d]+%f[^%l%d]",
-              "^[%l%d]+%f[^%l%d]",
-            },
-            "^().*()$",
-          },
-          u = ai.gen_spec.function_call(), -- u for "Usage"
-          U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
-        },
-      }
-    end,
   },
   {
     "MagicDuck/grug-far.nvim",
