@@ -3,6 +3,7 @@ local km = vim.keymap
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+km.set({ "i", "n", "v", "x" }, "<C-c>", "<esc>", { desc = "control+c acts like esc", noremap = true, silent = true })
 km.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
 km.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
 km.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
@@ -24,6 +25,7 @@ km.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Res
 km.set("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
 km.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 km.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+km.set('n', "<leader>m", "<cmd>Mason<cr>", {noremap = true, silent = true})
 
 km.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 km.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
