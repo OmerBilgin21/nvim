@@ -19,6 +19,7 @@ return {
           -- for files you have to do it like below
           "!*lock.json",
           "raycast",
+          "cdk.out",
           "dist",
           "*.next",
           "*.gitlab",
