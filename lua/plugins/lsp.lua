@@ -40,7 +40,7 @@ return {
         auto_install = false,
         modules = {},
         highlight = { enable = true },
-        -- indent = { enable = true },
+        indent = { enable = true },
         ensure_installed = { "lua", "javascript", "python", "jsonc", "markdown", "markdown_inline", "vim", "prisma" },
       })
     end,
@@ -70,6 +70,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
     lazy = false,
     opts = {
       servers = {
@@ -99,21 +100,16 @@ return {
       },
     },
     config = function(_, opts)
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
 
-      for server, config in pairs(opts.servers) do
-        config.capabilities = capabilities
-        lspconfig[server].setup(config)
+      if is_react() then
+        opts["servers"].tailwindcss = {}
+        opts["servers"].cssls = {}
       end
 
-      if is_react() then
-        lspconfig.tailwindcss.setup({
-          capabilities = capabilities,
-        })
-        lspconfig.cssls.setup({
-          capabilities = capabilities,
-        })
+      for server, config in pairs(opts.servers) do
+        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        lspconfig[server].setup(config)
       end
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
