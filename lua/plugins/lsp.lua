@@ -6,24 +6,48 @@ return {
         formatters_by_ft = {
           lua = { "stylua" },
           python = { "isort", "black" },
-          javascript = { "prettier_d", "prettier", stop_after_first = true },
-          javascriptreact = { "prettier_d", "prettier", stop_after_first = true },
-          typescript = { "prettier_d", "prettier", stop_after_first = true },
-          typescriptreact = { "prettier_d", "prettier", stop_after_first = true },
+          javascript = {
+            "eslint_d",
+            "prettier",
+            stop_after_first = true,
+          },
+          javascriptreact = {
+            "eslint_d",
+            "prettier",
+            stop_after_first = true,
+          },
+          typescript = {
+            "eslint_d",
+            "prettier",
+            stop_after_first = true,
+          },
+          typescriptreact = {
+            "eslint_d",
+            "prettier",
+            stop_after_first = true,
+          },
           go = { "gofmt" },
           json = { "jq" },
         },
+        default_format_opts = {
+          lsp_format = "prefer",
+        },
+        notify_on_error = true,
+        notify_no_formatters = true,
+        log_level = vim.log.levels.ERROR,
         format_on_save = {
           timeout_ms = 5000,
           lsp_format = "fallback",
         },
       })
+
       vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*",
         callback = function(args)
           require("conform").format({ bufnr = args.buf })
         end,
       })
+
       vim.keymap.set("n", "<leader>,", function()
         require("conform").format()
       end)
@@ -41,7 +65,16 @@ return {
         modules = {},
         highlight = { enable = true },
         indent = { enable = true },
-        ensure_installed = { "lua", "javascript", "python", "jsonc", "markdown", "markdown_inline", "vim", "prisma" },
+        ensure_installed = {
+          "lua",
+          "javascript",
+          'typescript',
+          "python",
+          "jsonc",
+          "markdown",
+          "markdown_inline",
+          "vim",
+          "prisma" },
       })
     end,
   },
@@ -108,6 +141,7 @@ return {
       end
 
       for server, config in pairs(opts.servers) do
+        -- config.server_capabilities = capabilities
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
         lspconfig[server].setup(config)
       end
