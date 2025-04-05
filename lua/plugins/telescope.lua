@@ -18,6 +18,7 @@ return {
           ".git",
           -- for files you have to do it like below
           "!*lock.json",
+          "cdk.out",
           "raycast",
           "dist",
           "*.next",
@@ -88,6 +89,9 @@ return {
     vim.keymap.set("n", "gd", function()
       builtin.lsp_definitions({ reuse_win = true })
     end, {})
+    vim.keymap.set("n", "gt", function()
+      builtin.lsp_type_definitions()
+    end)
     vim.keymap.set("n", "gr", function()
       builtin.lsp_references()
     end, {})
