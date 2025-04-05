@@ -74,7 +74,10 @@ return {
           "markdown",
           "markdown_inline",
           "vim",
-          "prisma" },
+          "prisma",
+          'tsx',
+          'html',
+        },
       })
     end,
   },
