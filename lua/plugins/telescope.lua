@@ -13,6 +13,7 @@ return {
 
     telescope.setup({
       defaults = {
+        layout_strategy = "vertical",
         file_ignore_patterns = {
           "node_modules",
           ".git",
@@ -46,6 +47,10 @@ return {
         lsp_references = {
           jump_type = "vsplit",
         },
+        lsp_definitions = {
+          jump_type = "vsplit",
+        },
+        find_files = {},
         live_grep = {
           theme = "ivy",
         },

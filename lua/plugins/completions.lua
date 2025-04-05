@@ -78,7 +78,15 @@ return {
       completion = { documentation = { auto_show = true } },
       snippets = { preset = "luasnip" },
       sources = {
+        per_filetype = {
+          sql = {
+            'snippets', 'dadbod', 'buffer'
+          },
+        },
         default = { "lsp", "path", "snippets", "buffer" },
+        providers = {
+          dadbod = { name = 'Dadbod', module = "vim_dadbod_completion.blink" }
+        }
       },
       fuzzy = { implementation = "prefer_rust_with_warning" },
     },
