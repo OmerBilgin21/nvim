@@ -35,10 +35,13 @@ return {
     config = function()
       local ts_config = require("nvim-treesitter.configs")
       ts_config.setup({
-        auto_install = true,
+        sync_install = false,
+        ignore_install = {},
+        auto_install = false,
+        modules = {},
         highlight = { enable = true },
-        indent = { enable = true },
-        ensure_installed = { "lua", "javascript", "python", "jsonc", "prisma" },
+        -- indent = { enable = true },
+        ensure_installed = { "lua", "javascript", "python", "jsonc", "markdown", "markdown_inline", "vim", "prisma" },
       })
     end,
   },
@@ -57,32 +60,29 @@ return {
     },
   },
   {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     lazy = false,
     opts = {
       servers = {
         lua_ls = {
-          on_init = function(client)
-            if client.workspace_folders then
-              local path = client.workspace_folders[1].name
-              if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-                return
-              end
-            end
-            client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-              runtime = {
-                version = "LuaJIT",
-              },
-              workspace = {
-                checkThirdParty = false,
-                library = {
-                  vim.env.VIMRUNTIME,
-                },
-              },
-            })
-          end,
           settings = {
-            Lua = {},
+            Lua = {
+              completion = {
+                callSnippet = "Replace",
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
+            },
           },
         },
         gopls = {},

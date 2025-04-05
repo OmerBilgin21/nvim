@@ -119,10 +119,6 @@ local function display_minintro(payload)
   local current_buff_name = vim.api.nvim_buf_get_name(current_buff)
   local current_buff_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buff })
   if not is_dir and current_buff_name ~= "" and current_buff_filetype ~= GROUP_NAME then
-    print("Skipping, conditions are not met\n")
-    print("is_dir: ", is_dir, "\n")
-    print("current_buff_name: ", current_buff_name, "\n")
-    print("current_buff_filetype: ", current_buff_filetype, "\n")
     return
   end
 

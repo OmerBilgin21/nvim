@@ -88,6 +88,7 @@ return {
           { name = "luasnip" }, -- For luasnip users.
         }, {
           { name = "buffer" },
+          { name = "lazydev", group_index = 0 },
         }),
       })
     end,
