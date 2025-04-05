@@ -16,6 +16,7 @@ return {
             "prettier",
             stop_after_first = true,
           },
+          sql = { 'sqlfmt' },
           typescript = {
             "eslint_d",
             "prettier",
