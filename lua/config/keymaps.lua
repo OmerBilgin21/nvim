@@ -25,35 +25,25 @@ km.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Res
 km.set("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
 km.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 km.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-km.set('n', "<leader>m", "<cmd>Mason<cr>", {noremap = true, silent = true})
-
+km.set('n', "<leader>m", "<cmd>Mason<cr>", { noremap = true, silent = true })
 km.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-km.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-km.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
-km.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-km.set("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "New Tab" })
-
+km.set("n", "<leader>sh", "<C-W>s", { desc = "split horizontally", remap = true })
+km.set("n", "<leader>sv", "<C-W>v", { desc = "split vertically", remap = true })
 km.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 km.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 km.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 km.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 km.set({ "v", "n" }, "<leader>bd", "<cmd>:bd<cr>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>rs", function()
+km.set("n", "<leader>rs", function()
   local module_name = vim.fn.input("Enter module name:")
   reload_module(module_name)
 end)
-
+km.set('n', '<leader>rm', '<cmd>%s/\r//g<cr>', { desc = 'dos 2 unix' })
+km.set('x', '<leader>rc', [[:lua require('vim.lsp.buf').rename(vim.fn.input('New Name: '))<CR>]],
+  { noremap = true, silent = true })
 km.set("n", "<leader><tab>d", "<cmd>tabnew | DBUIToggle<CR>", { desc = "", noremap = true, silent = true })
-km.set("n", "<leader>rc", function()
-  local replace_from = vim.fn.input("Replace from:")
-  local replace_to = vim.fn.input("Replace to:")
-
-  local cmd_str = string.format("/%s/%s/gc", replace_from, replace_to)
-  cmd_str = "%s" .. cmd_str
-  print(cmd_str)
-  vim.cmd(cmd_str)
-end, { noremap = true, silent = true })
-
+km.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+km.set("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "New Tab" })
 km.set("n", "<leader><tab>n", "<cmd>:tabnext<cr>")
 km.set("n", "<leader><tab>p", "<cmd>:tabprevious<cr>")
 
