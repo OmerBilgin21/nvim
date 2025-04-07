@@ -38,6 +38,8 @@ km.set("n", "<leader>rs", function()
   local module_name = vim.fn.input("Enter module name:")
   reload_module(module_name)
 end)
+km.set("n", "<F2>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+km.set("n", "<F3>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 km.set('n', '<leader>rm', '<cmd>%s/\r//g<cr>', { desc = 'dos 2 unix' })
 km.set('x', '<leader>rc', [[:lua require('vim.lsp.buf').rename(vim.fn.input('New Name: '))<CR>]],
   { noremap = true, silent = true })
