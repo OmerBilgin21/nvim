@@ -7,23 +7,23 @@ return {
           lua = { "stylua" },
           python = { "isort", "black" },
           javascript = {
-            "eslint_d",
+            "eslint",
             "prettier",
             stop_after_first = true,
           },
           javascriptreact = {
-            "eslint_d",
+            "eslint",
             "prettier",
             stop_after_first = true,
           },
           sql = { 'sqlfmt' },
           typescript = {
-            "eslint_d",
+            "eslint",
             "prettier",
             stop_after_first = true,
           },
           typescriptreact = {
-            "eslint_d",
+            "eslint",
             "prettier",
             stop_after_first = true,
           },
