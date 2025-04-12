@@ -5,6 +5,7 @@ return {
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
+          zsh = { "shfmt" },
           python = { "isort", "black" },
           javascript = {
             "eslint",
@@ -150,6 +151,10 @@ return {
         lspconfig[server].setup(config)
       end
 
+
+      vim.keymap.set("n", "gd", function()
+        vim.buf.lsp.definitions({ reuse_win = true })
+      end, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
     end,
