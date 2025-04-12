@@ -153,7 +153,7 @@ return {
 
 
       vim.keymap.set("n", "gd", function()
-        vim.buf.lsp.definitions({ reuse_win = true })
+        vim.lsp.buf.definition({ reuse_win = true })
       end, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
