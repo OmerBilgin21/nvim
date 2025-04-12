@@ -84,7 +84,7 @@ return {
       noremap = true,
       silent = true,
     })
-    vim.keymap.set("n", "gd", function()
+    vim.keymap.set("n", "<leader>gd", function()
       builtin.lsp_definitions({ reuse_win = true })
     end, {})
     vim.keymap.set("n", "gr", function()
