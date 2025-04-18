@@ -17,7 +17,7 @@ return {
             "prettier",
             stop_after_first = true,
           },
-          sql = { 'sqlfmt' },
+          sql = { "sqlfmt" },
           typescript = {
             "eslint",
             "prettier",
@@ -32,7 +32,7 @@ return {
           json = { "jq" },
         },
         default_format_opts = {
-          lsp_format = "prefer",
+          lsp_format = "fallback",
         },
         notify_on_error = true,
         notify_no_formatters = true,
@@ -70,15 +70,16 @@ return {
         ensure_installed = {
           "lua",
           "javascript",
-          'typescript',
+          "typescript",
           "python",
           "jsonc",
           "markdown",
           "markdown_inline",
+          "go",
           "vim",
           "prisma",
-          'tsx',
-          'html',
+          "tsx",
+          "html",
         },
       })
     end,
@@ -89,13 +90,6 @@ return {
     config = function()
       require("mason").setup()
     end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    lazy = false,
-    opts = {
-      auto_install = true,
-    },
   },
   {
     "folke/lazydev.nvim",
@@ -150,7 +144,6 @@ return {
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
         lspconfig[server].setup(config)
       end
-
 
       vim.keymap.set("n", "gd", function()
         vim.lsp.buf.definition({ reuse_win = true })
