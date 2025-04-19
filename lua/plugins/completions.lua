@@ -13,6 +13,12 @@ return {
         enable_autosnippets = true,
       })
 
+      ls.add_snippets("sh", {
+        s("shebang", {
+          t("#!/bin/bash"),
+        }),
+      })
+
       ls.add_snippets("typescriptreact", {
         s("tsrafce", {
           t({ "import React from 'react';", "" }),

@@ -1,30 +1,57 @@
 return {
   {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      local ts_config = require("nvim-treesitter.configs")
+      ts_config.setup({
+        sync_install = false,
+        ignore_install = {},
+        auto_install = true,
+        modules = {},
+        highlight = { enable = true },
+        indent = { enable = true },
+        ensure_installed = {
+          "lua",
+          "javascript",
+          "typescript",
+          "python",
+          "jsonc",
+          "markdown",
+          "markdown_inline",
+          "go",
+          "yaml",
+          "dockerfile",
+          "vim",
+          "prisma",
+          "tsx",
+          "html",
+        },
+      })
+    end,
+  },
+  {
     "stevearc/conform.nvim",
     opts = function()
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
-          zsh = { "shfmt" },
+          sh = { "shfmt" },
           python = { "isort", "black" },
           javascript = {
-            "eslint",
             "prettier",
             stop_after_first = true,
           },
           javascriptreact = {
-            "eslint",
             "prettier",
             stop_after_first = true,
           },
           sql = { "sqlfmt" },
           typescript = {
-            "eslint",
             "prettier",
             stop_after_first = true,
           },
           typescriptreact = {
-            "eslint",
             "prettier",
             stop_after_first = true,
           },
@@ -56,35 +83,6 @@ return {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      local ts_config = require("nvim-treesitter.configs")
-      ts_config.setup({
-        sync_install = false,
-        ignore_install = {},
-        auto_install = false,
-        modules = {},
-        highlight = { enable = true },
-        indent = { enable = true },
-        ensure_installed = {
-          "lua",
-          "javascript",
-          "typescript",
-          "python",
-          "jsonc",
-          "markdown",
-          "markdown_inline",
-          "go",
-          "vim",
-          "prisma",
-          "tsx",
-          "html",
-        },
-      })
-    end,
-  },
-  {
     "williamboman/mason.nvim",
     lazy = false,
     config = function()
@@ -102,7 +100,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "saghen/blink.cmp" },
+    dependencies = { "saghen/blink.cmp", "williamboman/mason-lspconfig" },
     lazy = false,
     opts = {
       servers = {
@@ -120,7 +118,25 @@ return {
         },
         gopls = {},
         ts_ls = {},
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              venvPath = vim.fn.getcwd(),
+              venv = "venv",
+              pythonPath = vim.fn.getcwd() .. "/venv/bin/python",
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
+        },
+        dockerls = {
+          filetypes = { "dockerfile" },
+        },
+        docker_compose_language_service = {
+          filetypes = { "yaml" },
+        },
         eslint = {
           on_attach = function(_, bufnr)
             vim.api.nvim_create_autocmd("BufWritePre", {
@@ -139,8 +155,12 @@ return {
         opts["servers"].cssls = {}
       end
 
+      require("mason-lspconfig").setup({
+        automatic_installation = true,
+        ensure_installed = vim.tbl_keys(opts.servers),
+      })
+
       for server, config in pairs(opts.servers) do
-        -- config.server_capabilities = capabilities
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
         lspconfig[server].setup(config)
       end

@@ -13,7 +13,7 @@ local uv = vim.loop
 
 local function has_files_with_extensions(extensions)
   local function scan_dir(dir)
-    local handle, err = uv.fs_scandir(dir)
+    local handle, _ = uv.fs_scandir(dir)
     if not handle then
       return false
     end
@@ -73,3 +73,9 @@ end
 _G.is_lua = function()
   return has_files_with_extensions({ "lua" })
 end
+
+vim.filetype.add({
+  pattern = {
+    ["*%.(bashrc|zshrc|sh|zsh_aliases|zsh_env|bash_aliases|bash_env)$"] = "sh",
+  },
+})
