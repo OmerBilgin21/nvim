@@ -90,8 +90,9 @@ return {
         "<leader>sr",
         function()
           local grug = require("grug-far")
+          print("grug: ", grug)
           local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-          grug.grug_far({
+          grug.toggle_instance({
             transient = true,
             prefills = {
               filesFilter = ext and ext ~= "" and "*." .. ext or nil,
