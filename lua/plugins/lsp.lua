@@ -98,6 +98,7 @@ return {
       },
     },
   },
+  { "williamboman/mason-lspconfig" },
   {
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp", "williamboman/mason-lspconfig" },
