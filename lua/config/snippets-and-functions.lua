@@ -1,3 +1,4 @@
+_G.IS_HOME = true
 -- Highlight on yank
 vim.api.nvim_exec(
   [[

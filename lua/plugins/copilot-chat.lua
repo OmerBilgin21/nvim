@@ -1,7 +1,7 @@
 local prompts = {
   -- Code related prompts
   Explain = "Please explain how the following code works.",
-  Review = "Please review the following code and provide suggestions for improvement.",
+  Review = "Please review the following code and provide suggestions for improvement. Point out possible bugs or performance issues if you can identify them. Also please communicate your reasoning for any suggested changes.",
   Tests = "Please explain how the selected code works, then generate unit tests for it.",
   Refactor = "Please refactor the following code to improve its clarity and readability.",
   FixCode = "Please fix the following code to make it work as intended.",
@@ -14,6 +14,154 @@ local prompts = {
   Wording = "Please improve the grammar and wording of the following text.",
   Concise = "Please rewrite the following text to make it more concise.",
 }
+
+local mappings = {
+  complete = {
+    detail = "Use @<Tab> or /<Tab> for options.",
+    insert = "<Tab>",
+  },
+  close = {
+    normal = "q",
+    insert = "C-q",
+  },
+  reset = {
+    normal = "<C-x>",
+    insert = "<C-x>",
+  },
+  submit_prompt = {
+    normal = "<CR>",
+    insert = "<C-CR>",
+  },
+  accept_diff = {
+    normal = "<C-y>",
+    insert = "<C-y>",
+  },
+  show_help = {
+    normal = "g?",
+  },
+}
+
+local keys = {
+  {
+    "<leader>cp",
+    function()
+      require("CopilotChat").select_prompt({
+        context = {
+          "buffers",
+        },
+      })
+    end,
+    desc = "CopilotChat - Prompt actions",
+  },
+  { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+  { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+  { "<leader>cr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+  { "<leader>cR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+  { "<leader>cn", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
+  { "<leader>cm", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat - Better Naming" },
+  {
+    "<leader>cv",
+    ":CopilotChatVisual",
+    mode = "x",
+    desc = "CopilotChat - Open in vertical split",
+  },
+  {
+    "<leader>ci",
+    function()
+      local input = vim.fn.input("Ask Copilot: ")
+      if input ~= "" then
+        vim.cmd("CopilotChat " .. input)
+      end
+    end,
+    desc = "CopilotChat - Ask input",
+  },
+  { "<leader>cx", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
+  { "<leader>cv", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
+}
+
+if IS_LOCAL then
+  print("this returns!")
+  return {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    build = "make tiktoken",
+
+    opts = function()
+      local chat = require("CopilotChat")
+      local select = require("CopilotChat.select")
+
+      -- commands
+      vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
+        chat.ask(args.args, { selection = select.visual })
+      end, { nargs = "*", range = true })
+      vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
+        chat.ask(args.args, { selection = select.buffer })
+      end, { nargs = "*", range = true })
+
+      -- default opts
+      return {
+        -- **point at your Ollama endpoint**
+        default_provider = "ollama",
+        model = "openhermes:latest",
+        context = {
+          "buffers",
+          -- "git",
+          "cwd",
+        },
+        providers = {
+          ollama = {
+            -- Copied from the copilot provider so you get the same message‐shaping
+            prepare_input = require("CopilotChat.config.providers").copilot.prepare_input,
+            prepare_output = require("CopilotChat.config.providers").copilot.prepare_output,
+            -- list Ollama models
+            get_models = function(headers)
+              local res, err = require("CopilotChat.utils").curl_get(
+                "http://localhost:11434/v1/models",
+                { headers = headers, json_response = true }
+              )
+              if err then
+                error(err)
+              end
+              return vim.tbl_map(function(m)
+                return { id = m.id, name = m.id }
+              end, res.body.data)
+            end,
+
+            -- chat completion endpoint
+            get_url = function()
+              return "http://localhost:11434/v1/chat/completions"
+            end,
+            -- **stub embeddings** so it won’t crash if Ollama has no embed model
+            embed = function(inputs, headers)
+              local res, err = require("CopilotChat.utils").curl_post("http://localhost:11434/v1/embeddings", {
+                headers = headers,
+                json_request = true,
+                json_response = true,
+                body = {
+                  input = inputs,
+                  model = "all-minilm:latest",
+                },
+              })
+              if err then
+                error(err)
+              end
+              -- plugin expects an array of { embedding = [...], index = i }
+              return res.body.data
+            end,
+          },
+        },
+        -- your key mappings & prompts
+        prompts = prompts,
+        mappings = mappings,
+        question_header = "## User ",
+        answer_header = "## Copilot ",
+        error_header = "## Error ",
+      }
+    end,
+    keys = keys,
+    event = "VeryLazy",
+  }
+end
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
@@ -28,91 +176,24 @@ return {
     error_header = "## Error ",
     prompts = prompts,
     model = "gpt-4o",
-    mappings = {
-      -- Use tab for completion
-      complete = {
-        detail = "Use @<Tab> or /<Tab> for options.",
-        insert = "<Tab>",
-      },
-      close = {
-        normal = "q",
-      },
-      -- Reset the chat buffer
-      reset = {
-        normal = "<C-x>",
-        insert = "<C-x>",
-      },
-      -- Submit the prompt to Copilot
-      submit_prompt = {
-        normal = "<CR>",
-        insert = "<C-CR>",
-      },
-      -- Accept the diff
-      accept_diff = {
-        normal = "<C-y>",
-        insert = "<C-y>",
-      },
-      -- Show help
-      show_help = {
-        normal = "g?",
-      },
-    },
   },
-  -- See Commands section for default commands if you want to lazy load on them
   prompts = prompts,
-  mappings = {
-    -- Use tab for completion
-    complete = {
-      detail = "Use @<Tab> or /<Tab> for options.",
-      insert = "<Tab>",
-    },
-    -- Close the chat
-    close = {
-      normal = "q",
-      insert = "C-q",
-    },
-    -- Reset the chat buffer
-    reset = {
-      normal = "<C-x>",
-      insert = "<C-x>",
-    },
-    -- Submit the prompt to Copilot
-    submit_prompt = {
-      normal = "<CR>",
-      insert = "<C-CR>",
-    },
-    -- Accept the diff
-    accept_diff = {
-      normal = "<C-y>",
-      insert = "<C-y>",
-    },
-    -- Show help
-    show_help = {
-      normal = "g?",
-    },
-  },
+  mappings = mappings,
   config = function(_, opts)
     local chat = require("CopilotChat")
     chat.setup(opts)
-
     local select = require("CopilotChat.select")
     vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
       chat.ask(args.args, { selection = select.visual })
     end, { nargs = "*", range = true })
-
-    -- Restore CopilotChatBuffer
     vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
       chat.ask(args.args, { selection = select.buffer })
     end, { nargs = "*", range = true })
-
-    -- Custom buffer for CopilotChat
     vim.api.nvim_create_autocmd("BufEnter", {
       pattern = "copilot-*",
       callback = function()
         vim.opt_local.relativenumber = true
         vim.opt_local.number = true
-
-        -- Get current filetype and set it to markdown if the current filetype is copilot-chat
         local ft = vim.bo.filetype
         if ft == "copilot-chat" then
           vim.bo.filetype = "markdown"
@@ -121,48 +202,5 @@ return {
     })
   end,
   event = "VeryLazy",
-  keys = {
-    -- Show prompts actions with telescope
-    {
-      "<leader>cp",
-      function()
-        require("CopilotChat").select_prompt({
-          context = {
-            "buffers",
-          },
-        })
-      end,
-      desc = "CopilotChat - Prompt actions",
-    },
-
-    -- Code related commands
-    { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-    { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
-    { "<leader>cr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
-    { "<leader>cR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
-    { "<leader>cn", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
-    -- Chat with Copilot in visual mode
-    {
-      "<leader>cv",
-      ":CopilotChatVisual",
-      mode = "x",
-      desc = "CopilotChat - Open in vertical split",
-    },
-
-    {
-      "<leader>ci",
-      function()
-        local input = vim.fn.input("Ask Copilot: ")
-        if input ~= "" then
-          vim.cmd("CopilotChat " .. input)
-        end
-      end,
-      desc = "CopilotChat - Ask input",
-    },
-
-    -- Clear buffer and chat history
-    { "<leader>cx", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
-    -- Toggle Copilot Chat Vsplit
-    { "<leader>cv", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
-  },
+  keys = keys,
 }
