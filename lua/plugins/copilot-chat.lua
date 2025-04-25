@@ -79,7 +79,7 @@ local keys = {
   { "<leader>cv", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
 }
 
-if IS_LOCAL then
+if IS_HOME then
   print("this returns!")
   return {
     "CopilotC-Nvim/CopilotChat.nvim",
