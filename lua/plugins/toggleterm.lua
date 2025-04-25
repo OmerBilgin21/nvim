@@ -40,7 +40,7 @@ return {
         test_terminal:toggle()
       end)
       vim.keymap.set("t", "<C-n>", [[<C-\><C-n>]])
-      vim.keymap.set({ "i", "n", "t" }, "<M-p>", "<cmd>ToggleTerm<CR>")
+      vim.keymap.set({ "i", "n", "t" }, "<tab>q", "<cmd>ToggleTerm<CR>")
       vim.keymap.set({ "i", "n", "t" }, "<M-e>", "<cmd>ToggleTerm<CR>")
       vim.keymap.set({ "i", "n", "t" }, "<M-q>", "<cmd>ToggleTerm<CR>")
       vim.keymap.set({ "i", "n", "t" }, "<A-l>", "<cmd>ToggleTerm<CR>")
