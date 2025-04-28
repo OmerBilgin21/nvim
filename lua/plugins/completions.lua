@@ -95,16 +95,41 @@ return {
         },
         default = { "lsp", "path", "snippets", "buffer", "copilot" },
         providers = {
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+            timeout_ms = 5000,
+            score_offset = 0,
+          },
+          path = {
+            name = "Path",
+            module = "blink.cmp.sources.path",
+            score_offset = 0,
+          },
+          snippets = {
+            name = "Snippets",
+            module = "blink.cmp.sources.snippets",
+            score_offset = -2,
+          },
+          buffer = {
+            name = "Buffer",
+            module = "blink.cmp.sources.buffer",
+            score_offset = -3,
+          },
           copilot = {
             name = "copilot",
             module = "blink-copilot",
-            score_offset = 100,
+            score_offset = -1,
             async = true,
             opts = {
-              max_completions = 3,
+              max_completions = 2,
             },
           },
-          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          dadbod = {
+            name = "Dadbod",
+            module = "vim_dadbod_completion.blink",
+            score_offset = 0,
+          },
         },
       },
       fuzzy = { implementation = "prefer_rust_with_warning" },
