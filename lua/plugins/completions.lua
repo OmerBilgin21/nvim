@@ -50,7 +50,7 @@ return {
       ls.add_snippets("go", {
         s("iferr", {
           t("if err != nil {"),
-          t({ "", "\t" }), -- New line with an indent for the placeholder
+          t({ "", "\t" }),
           i(1, "/* handle error */"),
           t({ "", "}" }),
         }),
@@ -72,6 +72,7 @@ return {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
       },
+      { "fang2hou/blink-copilot" },
     },
     version = "1.*",
     ---@module 'blink.cmp'
@@ -86,13 +87,24 @@ return {
       sources = {
         per_filetype = {
           sql = {
-            'snippets', 'dadbod', 'buffer'
+            "snippets",
+            "dadbod",
+            "buffer",
           },
         },
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
         providers = {
-          dadbod = { name = 'Dadbod', module = "vim_dadbod_completion.blink" }
-        }
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+            opts = {
+              max_completions = 3,
+            },
+          },
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+        },
       },
       fuzzy = { implementation = "prefer_rust_with_warning" },
     },
