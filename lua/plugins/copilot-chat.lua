@@ -105,8 +105,6 @@ if IS_HOME then
         model = "openhermes:latest",
         context = {
           "buffers",
-          -- "git",
-          "cwd",
         },
         providers = {
           ollama = {
@@ -176,9 +174,11 @@ return {
     error_header = "## Error ",
     prompts = prompts,
     model = "gpt-4o",
+    context = {
+      "buffers",
+    },
+    mappings = mappings,
   },
-  prompts = prompts,
-  mappings = mappings,
   config = function(_, opts)
     local chat = require("CopilotChat")
     chat.setup(opts)

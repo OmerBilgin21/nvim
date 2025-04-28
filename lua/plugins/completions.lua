@@ -65,6 +65,7 @@ return {
       end)
     end,
   },
+  { "fang2hou/blink-copilot" },
   {
     "saghen/blink.cmp",
     dependencies = {
