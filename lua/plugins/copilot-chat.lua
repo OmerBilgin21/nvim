@@ -30,7 +30,7 @@ local mappings = {
   },
   submit_prompt = {
     normal = "<CR>",
-    insert = "<C-CR>",
+    insert = "<C-s>",
   },
   accept_diff = {
     normal = "<C-y>",
