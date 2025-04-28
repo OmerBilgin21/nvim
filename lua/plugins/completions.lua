@@ -99,12 +99,12 @@ return {
             name = "LSP",
             module = "blink.cmp.sources.lsp",
             timeout_ms = 5000,
-            score_offset = 0,
+            score_offset = 1,
           },
           path = {
             name = "Path",
             module = "blink.cmp.sources.path",
-            score_offset = 0,
+            score_offset = 1,
           },
           snippets = {
             name = "Snippets",
