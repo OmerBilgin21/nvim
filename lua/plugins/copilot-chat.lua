@@ -21,7 +21,7 @@ local mappings = {
     insert = "<Tab>",
   },
   close = {
-    normal = "q",
+    normal = "C-q",
     insert = "C-q",
   },
   reset = {
