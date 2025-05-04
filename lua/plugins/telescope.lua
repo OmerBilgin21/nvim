@@ -15,17 +15,17 @@ return {
       defaults = {
         layout_strategy = "vertical",
         file_ignore_patterns = {
-          "node_modules",
-          ".git",
+          "node_modules/",
+          ".git/",
           -- for files you have to do it like below
           "!*lock.json",
-          "raycast",
-          "cdk.out",
-          "dist",
-          "*.next",
-          "*.gitlab",
-          "build",
-          "target",
+          "raycast/",
+          "cdk.out/",
+          "dist/",
+          "*.next/",
+          "*.gitlab/",
+          "build/",
+          "target/",
         },
         preview = {
           filesize_limit = 1,
