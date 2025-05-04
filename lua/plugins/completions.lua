@@ -99,28 +99,29 @@ return {
             name = "LSP",
             module = "blink.cmp.sources.lsp",
             timeout_ms = 5000,
-            score_offset = 1,
+            score_offset = 30,
           },
           path = {
             name = "Path",
             module = "blink.cmp.sources.path",
-            score_offset = 1,
+            score_offset = 50,
           },
           snippets = {
             name = "Snippets",
             module = "blink.cmp.sources.snippets",
-            score_offset = -2,
+            score_offset = 40,
           },
           buffer = {
             name = "Buffer",
             module = "blink.cmp.sources.buffer",
-            score_offset = -3,
+            score_offset = 10,
           },
           copilot = {
             name = "copilot",
             module = "blink-copilot",
-            score_offset = -1,
+            score_offset = 20,
             async = true,
+            timeout_ms = 3000,
             opts = {
               max_completions = 2,
             },
@@ -128,7 +129,7 @@ return {
           dadbod = {
             name = "Dadbod",
             module = "vim_dadbod_completion.blink",
-            score_offset = 0,
+            score_offset = 60,
           },
         },
       },
