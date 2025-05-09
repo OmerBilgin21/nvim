@@ -51,10 +51,27 @@ local function has_files_with_extensions(extensions)
   return scan_dir(uv.cwd())
 end
 
-_G.reload_module = function(module_name)
-  package.loaded[module_name] = nil
-  require(module_name)
-  print("Reloaded module: " .. module_name)
+_G.reload_module = function(name)
+  for k in pairs(package.loaded) do
+    if k == name or k:match("^" .. name .. "%.") then
+      package.loaded[k] = nil
+    end
+  end
+
+  local ok, mod = pcall(require, name)
+  if not ok then
+    print("Failed to reload:", name)
+    return
+  end
+
+  -- Re-run setup if your module exposes it
+  if mod.setup then
+    mod.setup({
+      keymaps = { "<C-g>" },
+    })
+  end
+
+  print("Reloaded module: " .. name)
 end
 
 _G.appendTables = function(destination, source)
