@@ -21,8 +21,8 @@ local mappings = {
     insert = "<Tab>",
   },
   close = {
-    normal = "C-q",
-    insert = "C-q",
+    normal = "C-d",
+    insert = "C-d",
   },
   reset = {
     normal = "<C-x>",
@@ -58,7 +58,7 @@ local keys = {
   { "<leader>cr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
   { "<leader>cR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
   { "<leader>cn", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
-  { "<leader>cm", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat - Better Naming" },
+  { "<leader>cm", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat list available models" },
   {
     "<leader>cv",
     ":CopilotChatVisual",
@@ -174,14 +174,14 @@ return {
     error_header = "## Error ",
     prompts = prompts,
     model = "gpt-4o",
-    context = {
-      "buffer",
-    },
+    -- context = {
+    --   "buffer",
+    -- },
     mappings = mappings,
     window = {
-      layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
-      width = 0.3, -- fractional width of parent, or absolute width in columns when > 1
-      height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
+      layout = "float", -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
+      width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
+      height = 0.9, -- fractional height of parent, or absolute height in rows when > 1
       -- Options below only apply to floating windows
       relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
       border = "single", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
