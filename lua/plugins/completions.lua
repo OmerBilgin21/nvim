@@ -22,11 +22,11 @@ return {
       ls.add_snippets("typescriptreact", {
         s("tsrafce", {
           t({ "import React from 'react';", "" }),
-          t("type Props = {};"),
+          t({ "type Props = {};", "" }),
           t({ "", "const " }),
           i(1, "ComponentName"),
           t({
-            ": React.FC<Props> = () => {",
+            ": React.FC<Props> = ({}: Props) => {",
             "  return (",
             "    <div>",
             "      {/* Your component JSX */}",
