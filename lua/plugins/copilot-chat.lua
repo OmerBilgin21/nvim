@@ -1,7 +1,14 @@
 local prompts = {
   -- Code related prompts
   Explain = "Please explain how the following code works.",
-  Review = "Please review the following code and provide suggestions for improvement. Point out possible bugs or performance issues if you can identify them. Also please communicate your reasoning for any suggested changes.",
+  Review = [[
+Review the following code.
+- Identify correctness issues, edge cases, or hidden bugs.
+- Highlight performance or scalability concerns, with reasoning.
+- Suggest improvements in clarity, maintainability, or best practices.
+- When recommending changes, explain why, and show corrected code snippets when relevant.
+- Keep feedback specific and actionable, not generic.
+  ]],
   Tests = "Please explain how the selected code works, then generate unit tests for it.",
   Refactor = "Please refactor the following code to improve its clarity and readability.",
   FixCode = "Please fix the following code to make it work as intended.",
@@ -21,8 +28,8 @@ local mappings = {
     insert = "<Tab>",
   },
   close = {
-    normal = "C-d",
-    insert = "C-d",
+    normal = "q",
+    insert = "<C-d>",
   },
   reset = {
     normal = "<C-x>",
@@ -53,18 +60,24 @@ local keys = {
     end,
     desc = "CopilotChat - Prompt actions",
   },
-  { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-  { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
-  { "<leader>cr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
-  { "<leader>cR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
-  { "<leader>cn", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
-  { "<leader>cm", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat list available models" },
   {
-    "<leader>cv",
-    ":CopilotChatVisual",
-    mode = "x",
-    desc = "CopilotChat - Open in vertical split",
+    "<leader>cr",
+    function()
+      local select = require("CopilotChat.select")
+      local selection
+      local mode = vim.fn.mode()
+      if mode == "V" or mode == "V" then
+        selection = select.visual
+      else
+        selection = select.buffer
+      end
+      require("CopilotChat").ask(prompts.Review, {
+        selection = selection,
+      })
+    end,
+    desc = "CopilotChat - Review code",
   },
+  { "<leader>cm", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat list available models" },
   {
     "<leader>ci",
     function()
@@ -75,91 +88,8 @@ local keys = {
     end,
     desc = "CopilotChat - Ask input",
   },
-  { "<leader>cx", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
   { "<leader>cv", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
 }
-
-if IS_HOME then
-  print("this returns!")
-  return {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    build = "make tiktoken",
-
-    opts = function()
-      local chat = require("CopilotChat")
-      local select = require("CopilotChat.select")
-
-      -- commands
-      vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
-        chat.ask(args.args, { selection = select.visual })
-      end, { nargs = "*", range = true })
-      vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
-        chat.ask(args.args, { selection = select.buffer })
-      end, { nargs = "*", range = true })
-
-      -- default opts
-      return {
-        -- **point at your Ollama endpoint**
-        default_provider = "ollama",
-        model = "openhermes:latest",
-        context = {
-          "buffers",
-        },
-        providers = {
-          ollama = {
-            -- Copied from the copilot provider so you get the same message‐shaping
-            prepare_input = require("CopilotChat.config.providers").copilot.prepare_input,
-            prepare_output = require("CopilotChat.config.providers").copilot.prepare_output,
-            -- list Ollama models
-            get_models = function(headers)
-              local res, err = require("CopilotChat.utils").curl_get(
-                "http://localhost:11434/v1/models",
-                { headers = headers, json_response = true }
-              )
-              if err then
-                error(err)
-              end
-              return vim.tbl_map(function(m)
-                return { id = m.id, name = m.id }
-              end, res.body.data)
-            end,
-
-            -- chat completion endpoint
-            get_url = function()
-              return "http://localhost:11434/v1/chat/completions"
-            end,
-            -- **stub embeddings** so it won’t crash if Ollama has no embed model
-            embed = function(inputs, headers)
-              local res, err = require("CopilotChat.utils").curl_post("http://localhost:11434/v1/embeddings", {
-                headers = headers,
-                json_request = true,
-                json_response = true,
-                body = {
-                  input = inputs,
-                  model = "all-minilm:latest",
-                },
-              })
-              if err then
-                error(err)
-              end
-              -- plugin expects an array of { embedding = [...], index = i }
-              return res.body.data
-            end,
-          },
-        },
-        -- your key mappings & prompts
-        prompts = prompts,
-        mappings = mappings,
-        question_header = "## User ",
-        answer_header = "## Copilot ",
-        error_header = "## Error ",
-      }
-    end,
-    keys = keys,
-    event = "VeryLazy",
-  }
-end
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
@@ -169,14 +99,33 @@ return {
   },
   build = "make tiktoken",
   opts = {
+    system_prompt = [[
+You are my coding assistant. Always follow modern TypeScript best practices.
+GOALS:
+- Be concise in explanations.
+- Always use strict typing.
+- Prefer async/await over promise chains.
+- Use `type` instead of `interface` for object shapes.
+- Always specify parameter and return types for functions.
+- Use enums instead of union types for static value definitions.
+- Keep functions small, focused, and single-responsibility.
+- Prefer functions from lodash or @lendis-tech/ libraries when applicable.
+- In frontend applications, use the existing styling libraries (Tailwind or Ant Design).
+RESTRICTIONS:
+- Do not add comments in code unless explicitly requested.
+TESTING PRINCIPLES:
+- Do not mock library methods or classes by default.
+- Only mock if the library component is central to the logic under test and the real implementation is impractical in tests.
+]],
     question_header = "## User ",
     answer_header = "## Copilot ",
     error_header = "## Error ",
     prompts = prompts,
-    model = "gpt-4o",
-    -- context = {
-    --   "buffer",
-    -- },
+    model = "claude-sonnet-4",
+    context = {
+      "files",
+      "git",
+    },
     mappings = mappings,
     window = {
       layout = "float", -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
@@ -196,12 +145,15 @@ return {
     local chat = require("CopilotChat")
     chat.setup(opts)
     local select = require("CopilotChat.select")
+
     vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
       chat.ask(args.args, { selection = select.visual })
     end, { nargs = "*", range = true })
+
     vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
       chat.ask(args.args, { selection = select.buffer })
     end, { nargs = "*", range = true })
+
     vim.api.nvim_create_autocmd("BufEnter", {
       pattern = "copilot-*",
       callback = function()
