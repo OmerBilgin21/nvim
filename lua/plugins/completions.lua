@@ -65,7 +65,6 @@ return {
       end)
     end,
   },
-  { "fang2hou/blink-copilot" },
   {
     "saghen/blink.cmp",
     dependencies = {
@@ -73,7 +72,6 @@ return {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
       },
-      { "fang2hou/blink-copilot" },
     },
     version = "1.*",
     ---@module 'blink.cmp'
@@ -93,7 +91,7 @@ return {
             "buffer",
           },
         },
-        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        default = { "lsp", "path", "snippets", "buffer" },
         providers = {
           lsp = {
             name = "LSP",
@@ -115,16 +113,6 @@ return {
             name = "Buffer",
             module = "blink.cmp.sources.buffer",
             score_offset = 10,
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-copilot",
-            score_offset = 20,
-            async = true,
-            timeout_ms = 3000,
-            opts = {
-              max_completions = 2,
-            },
           },
           dadbod = {
             name = "Dadbod",
