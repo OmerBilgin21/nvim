@@ -1,3 +1,7 @@
+if is_home() then
+  return {}
+end
+
 local prompts = {
   -- Code related prompts
   Explain = "Please explain how the following code works.",

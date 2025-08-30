@@ -84,12 +84,8 @@ _G.is_react = function()
   return has_files_with_extensions({ "jsx", "tsx", "css" })
 end
 
-_G.is_go = function()
-  return has_files_with_extensions({ "go" })
-end
-
-_G.is_lua = function()
-  return has_files_with_extensions({ "lua" })
+_G.is_home = function()
+  return true
 end
 
 vim.filetype.add({
