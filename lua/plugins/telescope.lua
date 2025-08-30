@@ -20,6 +20,8 @@ return {
           -- for files you have to do it like below
           "!*lock.json",
           "raycast/",
+          "venv/",
+          "hf_cache/",
           "cdk.out/",
           "dist/",
           "*.next/",
