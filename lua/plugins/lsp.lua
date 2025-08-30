@@ -122,9 +122,8 @@ return {
         pyright = {
           settings = {
             python = {
-              venvPath = vim.fn.getcwd(),
+              venvPath = ".",
               venv = "venv",
-              pythonPath = vim.fn.getcwd() .. "/venv/bin/python",
               analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
