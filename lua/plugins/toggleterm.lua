@@ -46,7 +46,15 @@ return {
         test_terminal:toggle()
       end)
       vim.keymap.set("t", "<C-n>", [[<C-\><C-n>]])
-      vim.keymap.set({ "i", "n", "t" }, "<S-tab>", "<cmd>ToggleTerm<CR>")
+      vim.keymap.set({ "i", "n", "t" }, "<S-tab>", function()
+        if lazygit:is_open() then
+          lazygit:close()
+        elseif claude:is_open() then
+          claude:close()
+        else
+          vim.cmd("ToggleTerm")
+        end
+      end, { desc = "Close all terminals or open a new one" })
       vim.keymap.set("n", "<leader>gg", function()
         lazygit:toggle()
       end)
