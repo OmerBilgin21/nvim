@@ -43,7 +43,7 @@ return {
 
       ls.add_snippets("typescriptreact", {
         s("debugg", {
-          t("style={{border: '1px solid red'}}"),
+          t("style={{border: '4px solid red'}}"),
         }),
       })
 
