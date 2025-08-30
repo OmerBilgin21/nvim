@@ -165,11 +165,28 @@ return {
         lspconfig[server].setup(config)
       end
 
+      -- Configure diagnostics
+      vim.diagnostic.config({
+        virtual_text = false,
+        virtual_lines = false,
+        float = true,
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
+
       vim.keymap.set("n", "gd", function()
         vim.lsp.buf.definition({ reuse_win = true })
       end, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<leader>ct", function()
+        vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+      end, { desc = "toggle diagnostics" })
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {})
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {})
+      vim.keymap.set("n", "<leader>cf", vim.diagnostic.open_float, {})
     end,
   },
 }
