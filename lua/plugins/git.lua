@@ -1,5 +1,21 @@
 return {
   {
+    "willothy/flatten.nvim",
+    opts = {
+      window = { open = "alternate" },
+      hooks = {
+        should_block = function(argv)
+          if not argv or type(argv) ~= "table" then
+            return false
+          end
+          return vim.tbl_contains(argv, "-b")
+            or vim.tbl_contains(argv, "--remote-wait")
+            or vim.tbl_contains(argv, "--remote-wait-sleep")
+        end,
+      },
+    },
+  },
+  {
     "tpope/vim-fugitive",
     config = function()
       vim.keymap.set("n", "<leader>gm", "<cmd>:Gvdiffsplit!<cr>", { noremap = true, silent = true })
