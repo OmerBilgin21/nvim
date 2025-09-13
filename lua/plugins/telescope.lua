@@ -93,6 +93,8 @@ return {
       builtin.lsp_references()
     end, {})
 
+    vim.keymap.set("n", "<leader>br", "<cmd>Telescope git_branches<cr>")
+
     if exists then
       telescope.load_extension("fzf")
     end
