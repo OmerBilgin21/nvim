@@ -81,7 +81,30 @@ return {
       appearance = {
         nerd_font_variant = "mono",
       },
-      completion = { documentation = { auto_show = true } },
+      completion = {
+        menu = {
+          border = "rounded",
+          draw = {
+            padding = { 1, 1 },
+          },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 0,
+          -- border = "rounded",
+          window = {
+            border = "rounded",
+            direction_priority = {
+              menu_north = {
+                "e",
+                "w",
+                "n",
+                "s",
+              },
+            },
+          },
+        },
+      },
       snippets = { preset = "luasnip" },
       sources = {
         per_filetype = {
