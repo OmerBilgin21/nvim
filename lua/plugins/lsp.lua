@@ -166,7 +166,6 @@ return {
         lspconfig[server].setup(config)
       end
 
-      -- Configure diagnostics
       vim.diagnostic.config({
         virtual_text = false,
         virtual_lines = false,
@@ -177,10 +176,23 @@ return {
         severity_sort = true,
       })
 
+      -- hover with border but it's stupidly complicated :D
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(event)
+          local buf = event.buf
+          vim.keymap.set("n", "K", function()
+            vim.lsp.buf.hover({
+              border = "rounded",
+              max_width = 80,
+              max_height = 20,
+            })
+          end, { buffer = buf, desc = "LSP hover (rounded)" })
+        end,
+      })
+
       vim.keymap.set("n", "gd", function()
         vim.lsp.buf.definition({ reuse_win = true })
       end, {})
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "<leader>ct", function()
         vim.diagnostic.enable(not vim.diagnostic.is_enabled())
