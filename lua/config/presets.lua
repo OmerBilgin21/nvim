@@ -41,4 +41,3 @@ opt.wrap = true
 opt.smoothscroll = false
 opt.autoread = true
 opt.swapfile = false
--- opt.showcmd = false
