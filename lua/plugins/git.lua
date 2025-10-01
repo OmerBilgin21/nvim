@@ -18,7 +18,6 @@ return {
   {
     "tpope/vim-fugitive",
     config = function()
-      -- Your existing keymaps
       vim.keymap.set("n", "<leader>gm", "<cmd>:Gvdiffsplit!<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>gb", "<cmd>:G blame<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>gr", function()
@@ -29,12 +28,8 @@ return {
       vim.keymap.set("n", "<leader>go", "<cmd>:diffget //2<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>gt", "<cmd>:diffget //3<cr>", { noremap = true, silent = true })
 
-      -- New comprehensive Git workflow keymaps
-
-      -- Git status (main interface)
       vim.keymap.set("n", "<leader>gs", "<cmd>G<cr>", { desc = "Git status" })
 
-      -- Branch operations
       vim.keymap.set("n", "<leader>gc", "<cmd>G checkout<cr>", { desc = "Git checkout branch" })
       vim.keymap.set("n", "<leader>gC", function()
         local branch = vim.fn.input("Create and checkout branch: ")
@@ -116,10 +111,6 @@ return {
       -- Diff operations (enhanced)
       vim.keymap.set("n", "<leader>gd", "<cmd>Gdiffsplit<cr>", { desc = "Git diff split" })
 
-      -- Additional utilities
-      vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { desc = "Git add current file" })
-      vim.keymap.set("n", "<leader>gR", "<cmd>Gread<cr>", { desc = "Git checkout current file" })
-
       -- Git status buffer specific mappings (these work when you're in the :G buffer)
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "fugitive",
@@ -129,13 +120,10 @@ return {
 
           -- Enhanced staging shortcuts in fugitive buffer
           vim.keymap.set("n", "cc", "<cmd>G commit<cr>", opts)
-          vim.keymap.set("n", "ca", "<cmd>G commit --amend<cr>", opts)
           vim.keymap.set("n", "P", "<cmd>G push<cr>", opts)
-          vim.keymap.set("n", "F", "<cmd>G pull<cr>", opts)
+          vim.keymap.set("n", "p", "<cmd>G pull<cr>", opts)
 
-          -- Discard changes (X is built-in, but adding for clarity)
-          -- X already works by default in fugitive buffer to discard changes
-          vim.keymap.set("n", "X", "X", opts) -- Discard change under cursor
+          vim.keymap.set("n", "X", "X", opts)
           vim.keymap.set("n", "<leader>gX", "<cmd>G reset --hard HEAD<cr>", opts) -- Discard all changes
         end,
       })
