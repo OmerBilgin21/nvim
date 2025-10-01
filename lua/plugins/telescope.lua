@@ -36,12 +36,15 @@ return {
           i = {
             ["<C-c>"] = actions.close,
             ["<esc>"] = actions.close,
-            ["q"] = actions.close,
+            ["["] = actions.close,
+            ["]"] = actions.close,
           },
           n = {
             ["<C-d>"] = actions.delete_buffer,
             ["<C-c>"] = actions.close,
             ["q"] = actions.close,
+            ["["] = actions.close,
+            ["]"] = actions.close,
           },
         },
       },
