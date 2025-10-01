@@ -4,14 +4,21 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 km.set({ "i", "n", "v", "x" }, "<C-c>", "<esc>", { desc = "control+c acts like esc", noremap = true, silent = true })
-km.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-km.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-km.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-km.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
+
+km.set("n", "<C-h>", "<C-w>h", { remap = true })
+km.set("n", "<C-j>", "<C-w>j", { remap = true })
+km.set("n", "<C-k>", "<C-w>k", { remap = true })
+km.set("n", "<C-l>", "<C-w>l", { remap = true })
+
+km.set("t", "<C-h>", [[<C-\><C-n><cmd>wincmd h<CR>]], { noremap = true })
+km.set("t", "<C-j>", [[<C-\><C-n><cmd>wincmd j<CR>]], { noremap = true })
+km.set("t", "<C-k>", [[<C-\><C-n><cmd>wincmd k<CR>]], { noremap = true })
+km.set("t", "<C-l>", [[<C-\><C-n><cmd>wincmd l<CR>]], { noremap = true })
+
 km.set("n", "<S-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
 km.set("n", "<S-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-km.set("n", "<S-left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-km.set("n", "<S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+km.set("n", "<M-left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+km.set("n", "<M-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 km.set("n", "yy", [["+Y]])
 km.set({ "n", "v" }, "y", [["+y]])
 km.set("n", "<C-d>", "15<C-d>zz", { noremap = true })
