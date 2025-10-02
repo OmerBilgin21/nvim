@@ -83,10 +83,6 @@ _G.is_react = function()
   return has_files_with_extensions({ "jsx", "tsx", "css" })
 end
 
-_G.is_home = function()
-  return true
-end
-
 vim.filetype.add({
   pattern = {
     ["*%.(bashrc|zshrc|sh|zsh_aliases|zsh_env|bash_aliases|bash_env)$"] = "sh",

@@ -4,13 +4,14 @@ return {
     version = "*",
     config = function()
       local tt = require("toggleterm")
+      local term = require("toggleterm.terminal")
       local Terminal = require("toggleterm.terminal").Terminal
 
       local base_setup = {
-        size = function(term)
-          if term.direction == "horizontal" then
+        size = function(term_opts)
+          if term_opts.direction == "horizontal" then
             return 15
-          elseif term.direction == "vertical" then
+          elseif term_opts.direction == "vertical" then
             return vim.o.columns * 0.3
           else
             return 20
@@ -62,6 +63,9 @@ return {
 
       vim.keymap.set("t", "<C-n>", [[<C-\><C-n>]])
       vim.keymap.set({ "i", "n", "t" }, "<S-tab>", function()
+        if term.get_focused_id() == 999 then
+          return
+        end
         vim.cmd("1ToggleTerm")
       end, { desc = "Close all terminals or open a new one" })
 
