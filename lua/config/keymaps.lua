@@ -5,15 +5,35 @@ vim.g.maplocalleader = "\\"
 
 km.set({ "i", "n", "v", "x" }, "<C-c>", "<esc>", { desc = "control+c acts like esc", noremap = true, silent = true })
 
-km.set("n", "<C-h>", "<C-w>h", { remap = true })
-km.set("n", "<C-j>", "<C-w>j", { remap = true })
-km.set("n", "<C-k>", "<C-w>k", { remap = true })
-km.set("n", "<C-l>", "<C-w>l", { remap = true })
+vim.keymap.set({ "i", "n", "t" }, "<c-h>", function()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == "t" then
+    vim.cmd("stopinsert")
+  end
+  vim.cmd("TmuxNavigateLeft")
+end, { noremap = true })
 
-km.set("t", "<C-h>", [[<C-\><C-n><cmd>wincmd h<CR>]], { noremap = true })
-km.set("t", "<C-j>", [[<C-\><C-n><cmd>wincmd j<CR>]], { noremap = true })
-km.set("t", "<C-k>", [[<C-\><C-n><cmd>wincmd k<CR>]], { noremap = true })
-km.set("t", "<C-l>", [[<C-\><C-n><cmd>wincmd l<CR>]], { noremap = true })
+vim.keymap.set({ "i", "n", "t" }, "<c-j>", function()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == "t" then
+    vim.cmd("stopinsert")
+  end
+  vim.cmd("TmuxNavigateDown")
+end, { noremap = true })
+vim.keymap.set({ "i", "n", "t" }, "<c-k>", function()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == "t" then
+    vim.cmd("stopinsert")
+  end
+  vim.cmd("TmuxNavigateUp")
+end, { noremap = true })
+vim.keymap.set({ "i", "n", "t" }, "<C-l>", function()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == "t" then
+    vim.cmd("stopinsert")
+  end
+  vim.cmd("TmuxNavigateRight")
+end, { noremap = true })
 
 km.set("n", "<S-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
 km.set("n", "<S-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
