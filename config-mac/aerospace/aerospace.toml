@@ -3,13 +3,13 @@
 
 # You can use it to add commands that run after AeroSpace startup.
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = [
-'exec-and-forget wezterm',
-'exec-and-forget open /Applications/Slack.app',
-'exec-and-forget open /Applications/pgAdmin 4.app',
-'exec-and-forget open /Applications/Postman.app',
-'exec-and-forget open /Applications/Vivaldi.app'
-]
+# after-startup-command = [
+# 'exec-and-forget wezterm',
+# 'exec-and-forget open /Applications/Slack.app',
+# 'exec-and-forget open /Applications/pgAdmin 4.app',
+# 'exec-and-forget open /Applications/Postman.app',
+# 'exec-and-forget open /Applications/Vivaldi.app'
+# ]
 
 start-at-login = true
 enable-normalization-flatten-containers = true
