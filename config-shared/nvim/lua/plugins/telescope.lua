@@ -99,7 +99,7 @@ return {
     })
     vim.keymap.set("n", "<leader>f", function()
       builtin.live_grep({
-        glob_pattern = { "!package-lock.json" },
+        glob_pattern = { "!package-lock.json", "!plugin-code/" },
       })
     end, { noremap = true, silent = true })
     vim.keymap.set("n", "<leader><leader>", function()
