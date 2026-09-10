@@ -1,3 +1,4 @@
 .zshsecrets
 node_modules
 *.elc
+localbin*/allow-chained-allowlist
